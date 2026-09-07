@@ -39,9 +39,9 @@ const sans = Jost({
  * To add an icon, refetch the subset with the new name appended and replace
  * public/fonts/material-symbols-subset.woff2. The current set is:
  *
- *   arrow_forward, calendar_month, call, check, credit_card, directions,
- *   expand_more, face_retouching_natural, local_parking, schedule, school,
- *   star, storefront, straighten, workspace_premium
+ *   arrow_forward, calendar_month, call, check, close, credit_card,
+ *   directions, expand_more, face_retouching_natural, local_parking,
+ *   schedule, school, star, storefront, straighten, workspace_premium
  *
  * https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined
  *   :opsz,wght,FILL,GRAD@20..24,300..400,0..1,0&icon_names=<names>&display=block

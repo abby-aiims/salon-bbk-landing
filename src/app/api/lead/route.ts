@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { site } from "@/content/site";
-import { LEAD_FIELDS, locationForCopy, validateLead, type Lead } from "@/lib/lead";
+import { LEAD_FIELDS, formatLeadDate, locationForCopy, validateLead, type Lead } from "@/lib/lead";
 
 export const runtime = "nodejs";
 
@@ -50,7 +50,7 @@ async function deliver(lead: Lead, extras: Payload): Promise<void> {
     ["Email", lead.email],
     ["Preferred location", lead.location],
     ["Preferred service", lead.service],
-    ["Preferred date and time", lead.datetime || "Not given"],
+    ["Preferred date", lead.datetime ? formatLeadDate(lead.datetime) : "Not given"],
     ["How they heard about us", lead.source || "Not given"],
     ...Object.entries(extras).map(([key, value]) => [key, value]),
   ];

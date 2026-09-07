@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 import styles from "./LeadForm.module.css";
@@ -9,21 +8,14 @@ import { form, serviceOptions } from "@/content/home";
 import { cta, primaryLocation, site, telHref } from "@/content/site";
 import {
   LEAD_FIELDS,
-  locationForCopy,
+  calendarBounds,
   validateField,
   validateLead,
   type Lead,
   type LeadErrors,
   type LeadField,
 } from "@/lib/lead";
-
-const TRACKING_KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term", "gclid", "fbclid"];
-
-declare global {
-  interface Window {
-    dataLayer?: Record<string, unknown>[];
-  }
-}
+import { useLeadSubmit } from "@/lib/useLeadSubmit";
 
 /**
  * The primary conversion. A plain HTML form that POSTs to /api/lead, so it
@@ -36,38 +28,18 @@ declare global {
  * "bbk:prefill" event so the select updates before the scroll lands.
  */
 export function LeadForm({ id, sourcePage = "/" }: { id: string; sourcePage?: string }) {
-  const router = useRouter();
   const formRef = useRef<HTMLFormElement>(null);
   const [errors, setErrors] = useState<LeadErrors>({});
-  const [status, setStatus] = useState<"idle" | "sending" | "failed">("idle");
   const [service, setService] = useState("");
-  const [mountedAt, setMountedAt] = useState<number | null>(null);
-  const [tracking, setTracking] = useState<Record<string, string>>({});
+  const [bounds, setBounds] = useState<{ min?: string; max?: string }>({});
+
+  const { status, mountedAt, send } = useLeadSubmit(id, sourcePage);
+
+  // Today moves and the page is prerendered, so the calendar range is read in
+  // the browser rather than baked into the HTML.
+  useEffect(() => setBounds(calendarBounds()), []);
 
   useEffect(() => {
-    setMountedAt(Date.now());
-
-    const params = new URLSearchParams(window.location.search);
-    const found: Record<string, string> = {};
-    for (const key of TRACKING_KEYS) {
-      let stored: string | null = null;
-      try {
-        stored = window.sessionStorage.getItem("bbk:" + key);
-      } catch {
-        // Private mode: attribution is best effort.
-      }
-      const value = params.get(key) ?? stored;
-      if (value) {
-        found[key] = value;
-        try {
-          window.sessionStorage.setItem("bbk:" + key, value);
-        } catch {
-          // Ignore.
-        }
-      }
-    }
-    setTracking(found);
-
     const applyService = (key: string) => {
       const option = serviceOptions.find((o) => o.key === key);
       if (option) setService(option.label);
@@ -111,38 +83,7 @@ export function LeadForm({ id, sourcePage = "/" }: { id: string; sourcePage?: st
       return;
     }
 
-    setStatus("sending");
-    try {
-      const response = await fetch("/api/lead", {
-        method: "POST",
-        headers: { "Content-Type": "application/json", Accept: "application/json" },
-        body: JSON.stringify({
-          ...lead,
-          website: data.get("website"),
-          startedAt: mountedAt,
-          sourcePage,
-          formId: id,
-          ...tracking,
-        }),
-      });
-      if (!response.ok) throw new Error("Lead failed: " + response.status);
-
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({
-        event: "lead_form_submit",
-        form_id: id,
-        location: lead.location,
-        service: lead.service,
-      });
-
-      const query = new URLSearchParams({
-        name: lead.firstName.trim(),
-        location: locationForCopy(lead.location),
-      });
-      router.push("/thank-you?" + query.toString());
-    } catch {
-      setStatus("failed");
-    }
+    await send(lead, data.get("website"));
   };
 
   const f = (name: LeadField) => `${id}-${name}`;
@@ -283,8 +224,9 @@ export function LeadForm({ id, sourcePage = "/" }: { id: string; sourcePage?: st
             className={styles.input + invalid("datetime")}
             id={f("datetime")}
             name="datetime"
-            type="text"
-            placeholder="e.g. Saturday morning, or Thu after 6pm"
+            type="date"
+            min={bounds.min}
+            max={bounds.max}
             aria-invalid={Boolean(errors.datetime)}
             aria-describedby={errors.datetime ? f("datetime") + "-error" : undefined}
             onBlur={handleBlur}

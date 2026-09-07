@@ -185,7 +185,7 @@ export const form = {
     email: "Email address",
     location: "Preferred location",
     service: "Preferred service",
-    datetime: "Preferred appointment date and time",
+    datetime: "Preferred appointment date",
     source: "How did you hear about us?",
   },
   locationOptions: ["Smithfield", "Clemton Park (Campsie)", "Either, whichever is sooner"],
@@ -197,6 +197,19 @@ export const form = {
   successTitle: (name: string) => `Thanks ${name}, you're in.`,
   successBody: (location: string) =>
     `One of the team will text you within business hours to lock in your consultation at ${location}. Save the number in the meantime.`,
+};
+
+/**
+ * The booking modal every "Book now" opens. Two steps: what the appointment
+ * is, then who it is for. The wording stays short because the panel is read
+ * on a phone with the page still behind it.
+ */
+export const booking = {
+  title: "Book Your Free Consultation",
+  steps: ["Your appointment", "Your details"],
+  dateHint: "Pick a day that suits. We confirm the exact time by text.",
+  next: "Continue",
+  back: "Back",
 };
 
 export const finder = {

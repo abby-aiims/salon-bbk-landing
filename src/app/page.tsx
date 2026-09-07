@@ -1,4 +1,5 @@
 import { AnnouncementBar } from "@/components/AnnouncementBar";
+import { BookingModal } from "@/components/BookingModal";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { JsonLd } from "@/components/JsonLd";
@@ -21,6 +22,10 @@ import { WhyBBK } from "@/components/sections/WhyBBK";
 /**
  * Section order per 03-copy/copy-deck.md, final. The form sits high (straight
  * after services) and again at the end; every primary CTA anchors to #book.
+ *
+ * Those anchors are what BookingModal listens for: it opens over the page
+ * instead of letting it jump, and falls back to the anchor scroll when there
+ * is no JavaScript to open it with.
  */
 export default function LandingPage() {
   return (
@@ -47,6 +52,7 @@ export default function LandingPage() {
       </main>
       <Footer />
       <StickyBar />
+      <BookingModal />
     </>
   );
 }
