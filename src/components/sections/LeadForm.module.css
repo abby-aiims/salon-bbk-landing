@@ -1,0 +1,141 @@
+.form {
+  display: grid;
+  gap: 18px;
+}
+
+.row {
+  display: grid;
+  gap: 18px;
+}
+
+@media (min-width: 640px) {
+  .row {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.field {
+  display: grid;
+  gap: 6px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  color: var(--ink);
+}
+
+.optional {
+  color: var(--ink-soft);
+  font-weight: 400;
+}
+
+.input,
+.select {
+  width: 100%;
+  min-height: 52px;
+  padding: 12px 14px;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: var(--r-btn);
+  font-family: var(--sans);
+  /* 16px so iOS Safari does not zoom on focus. */
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--ink);
+  transition: border-color var(--fast) ease;
+}
+
+.input:hover,
+.select:hover {
+  border-color: var(--petal);
+}
+
+.input:focus,
+.select:focus {
+  outline: 2px solid var(--rose);
+  outline-offset: 0;
+  border-color: var(--rose);
+}
+
+.input::placeholder {
+  color: #8a7578;
+}
+
+.select {
+  appearance: none;
+  padding-right: 42px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9' fill='none'%3E%3Cpath d='M1 1L7 7L13 1' stroke='%23864d53' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 14px center;
+}
+
+.select:invalid,
+.select option[value=""] {
+  color: #8a7578;
+}
+
+.invalid {
+  border-color: var(--error);
+}
+
+.error {
+  font-size: 13px;
+  line-height: 1.4;
+  color: var(--error);
+}
+
+.formError {
+  padding: 12px 14px;
+  border-radius: var(--r-btn);
+  background: #fbeceb;
+  color: var(--error);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.formError a {
+  color: inherit;
+}
+
+.honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.submit {
+  margin-top: 4px;
+}
+
+/* Afterpay's wordmark in place of the word, so the payment option reads at a
+   glance next to the submit. The mark is used as issued: black and unaltered. */
+.afterpay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--ink);
+}
+
+.afterpayLogo {
+  width: 74px;
+  height: auto;
+}
+
+.reassure {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--ink-soft);
+  text-align: center;
+}
+
+.reassure a {
+  color: var(--plum);
+  text-underline-offset: 3px;
+}

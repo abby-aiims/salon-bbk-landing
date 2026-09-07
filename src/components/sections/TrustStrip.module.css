@@ -1,0 +1,106 @@
+.strip {
+  background: var(--ground-blush);
+  padding-block: clamp(48px, 6vw, 88px);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+/* Three-row card: index and icon on the first row, the claim centred in the
+   middle row, the shared label pinned to the bottom under a hairline. */
+.card {
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  min-height: 300px;
+  padding: 22px 22px 18px;
+  background: var(--white);
+  border-radius: var(--r-card);
+}
+
+.index {
+  grid-row: 1;
+  grid-column: 1;
+  justify-self: start;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.12em;
+  color: var(--ink-soft);
+}
+
+.icon {
+  grid-row: 1;
+  grid-column: 1;
+  justify-self: end;
+  font-size: 22px;
+  color: var(--plum);
+}
+
+/* Partner mark, sized to sit on the same optical line as the Material icons. */
+.logo {
+  grid-row: 1;
+  grid-column: 1;
+  justify-self: end;
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+}
+
+.body {
+  grid-row: 2;
+  display: grid;
+  align-content: center;
+  gap: 8px;
+  text-align: center;
+  padding-inline: 4px;
+}
+
+.title {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 26px;
+  line-height: 1.15;
+  color: var(--ink);
+}
+
+.text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--ink-soft);
+  max-width: 30ch;
+  margin-inline: auto;
+}
+
+.footnote {
+  grid-row: 3;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  text-align: center;
+  color: var(--ink-soft);
+}
+
+@media (min-width: 640px) {
+  .list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1000px) {
+  .list {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+
+  .card {
+    min-height: 340px;
+    padding: 26px 26px 20px;
+  }
+}

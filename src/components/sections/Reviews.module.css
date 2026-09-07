@@ -1,0 +1,193 @@
+.head {
+  display: grid;
+  gap: 16px;
+  align-items: end;
+}
+
+.headText {
+  display: grid;
+  gap: 12px;
+}
+
+.summary {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--ink-soft);
+  max-width: 42ch;
+}
+
+/* Hairlines top and bottom, with the columns divided by rules rather than
+   boxed as cards. */
+.frame {
+  margin-top: 32px;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+.track::-webkit-scrollbar {
+  display: none;
+}
+
+.item {
+  flex: 0 0 100%;
+  scroll-snap-align: start;
+  display: grid;
+  align-content: start;
+  gap: 14px;
+  padding: 28px 0 30px;
+  border-left: 1px solid var(--line);
+  padding-inline: 24px;
+}
+
+/* The first column in each view of three carries no rule, so the set reads as
+   a divided row rather than a boxed one. */
+.item:first-child {
+  border-left: 0;
+  padding-left: 0;
+}
+
+.mark {
+  font-family: var(--display);
+  font-size: 34px;
+  line-height: 0.6;
+  color: var(--rose);
+}
+
+.quote {
+  margin: 0;
+  font-size: 17px;
+  line-height: 1.5;
+  color: var(--ink);
+  max-width: 34ch;
+}
+
+.who {
+  display: grid;
+  gap: 2px;
+  margin-top: auto;
+}
+
+.name {
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: var(--ink-soft);
+}
+
+.foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.nav {
+  display: flex;
+  gap: 8px;
+}
+
+.arrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  padding: 0;
+  background: transparent;
+  border: 1px solid var(--line);
+  border-radius: var(--r-pill);
+  color: var(--ink);
+  cursor: pointer;
+  transition:
+    border-color var(--fast) ease,
+    background-color var(--fast) ease;
+}
+
+.arrow:hover:not(:disabled) {
+  border-color: var(--plum);
+  background: var(--ground-blush);
+}
+
+.arrow:disabled {
+  opacity: 0.35;
+  cursor: default;
+}
+
+.flip {
+  transform: rotate(180deg);
+}
+
+@media (min-width: 700px) {
+  .item {
+    flex-basis: 50%;
+  }
+
+  .item:nth-child(2n + 1) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .item:nth-child(2n) {
+    padding-right: 0;
+  }
+}
+
+@media (min-width: 1000px) {
+  .head {
+    grid-template-columns: 1fr auto;
+    gap: 32px;
+  }
+
+  .summary {
+    text-align: right;
+  }
+
+  .item {
+    flex-basis: 33.3333%;
+    padding-block: 36px 40px;
+    padding-inline: 32px;
+  }
+
+  /* Reset the two-up rules, then divide every third column instead. */
+  .item:nth-child(2n + 1) {
+    border-left: 1px solid var(--line);
+    padding-left: 32px;
+  }
+
+  .item:nth-child(2n) {
+    padding-right: 32px;
+  }
+
+  .item:nth-child(3n + 1) {
+    border-left: 0;
+    padding-left: 0;
+  }
+
+  .item:nth-child(3n) {
+    padding-right: 0;
+  }
+
+  .quote {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    scroll-behavior: auto;
+  }
+}

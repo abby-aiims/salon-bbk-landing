@@ -1,0 +1,58 @@
+/* Pale strip above a transparent header, per the reference: quiet ground,
+   dark sentence-case text, no uppercase. Replaces the plum bar in
+   02-design/design-system-spec.md. */
+.bar {
+  position: relative;
+  z-index: 31;
+  height: 36px;
+  background: var(--ground-blush);
+  color: var(--ink);
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+  line-height: 36px;
+}
+
+.track {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.bar:hover .track,
+.bar:focus-within .track {
+  animation-play-state: paused;
+}
+
+.item {
+  padding-inline: 32px;
+  white-space: nowrap;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+@media (min-width: 900px) {
+  .track {
+    width: auto;
+    justify-content: center;
+    animation: none;
+  }
+
+  .item[aria-hidden="true"] {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .track {
+    animation: none;
+  }
+}

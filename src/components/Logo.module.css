@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Salon BBK lockup, set as live text instead of a PNG.
+
+   Every value is measured off the supplied artwork,
+   05-assets/01-originals/logo/salon-bbk-logo-horizontal-pink.png (1080x257),
+   expressed against the wordmark cap height, which in Glorify is 0.7em:
+
+     wordmark width        7.79 cap  (matched by Glorify at zero tracking)
+     tagline cap height    0.184 cap
+     wordmark baseline to tagline cap top   0.325 cap
+
+   The artwork sets the tagline over two lines. The client asked for one, so
+   the line break is gone and the tracking is opened from 0.19em to 0.30em,
+   which lands the single line at roughly three quarters of the wordmark width:
+   the same optical relationship the stacked version had.
+
+   font-size on .logo is the only input. Glorify at 140px reports a 105/35
+   ascent and descent against a 100px ink ascent, so a 0.929 line-height puts
+   the cap line exactly on the box top and the baseline at 0.714em. That is
+   what makes the gap below predictable and stops the lockup overflowing its
+   own box inside a flex row.
+   ========================================================================== */
+
+.logo {
+  display: inline-grid;
+  justify-items: center;
+  /* Baseline to tagline cap top comes out at almost exactly zero once both
+     line boxes are trimmed as above. Kept explicit so it stays tunable. */
+  gap: 0.005em;
+  line-height: 1;
+  color: var(--rose);
+  white-space: nowrap;
+}
+
+.word {
+  font-family: var(--display);
+  font-weight: 400;
+  font-size: 1em;
+  line-height: 0.929;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+.tagline {
+  display: grid;
+  justify-items: center;
+  font-family: var(--sans);
+  /* 0.184 cap against Jost's 0.767 rendered cap height. */
+  font-size: 0.177em;
+  font-weight: 500;
+  line-height: 0.9;
+  letter-spacing: 0.3em;
+  /* Tracking adds a trailing space, so pull the line back by the same amount
+     to keep the tagline optically centred on the wordmark. */
+  text-indent: 0.3em;
+  text-transform: uppercase;
+  /* Rose is fine on the wordmark, which is large text, but never at this size:
+     the design system reserves small text for plum. */
+  color: var(--plum);
+}
+
+/* Dark grounds: the footer and the hero header. Both parts take the parent
+   colour, so one rule on the caller controls the whole lockup. */
+.inherit,
+.inherit .tagline {
+  color: inherit;
+}

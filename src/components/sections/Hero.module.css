@@ -1,0 +1,274 @@
+/* Full-bleed hero. The header is transparent and sits over this, so the hero
+   is pulled up underneath it by the header height and the image runs from the
+   announcement bar down. */
+
+.hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  margin-top: calc(-1 * var(--header));
+  /* Hero plus the bars above it fills the viewport exactly. */
+  min-height: calc(100svh - var(--bars));
+  background: var(--ground-nude);
+  overflow: hidden;
+}
+
+.media {
+  position: absolute;
+  inset: 0;
+}
+
+.image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 72% 22%;
+}
+
+/* One background, two jobs: a vignette under the header, and a heavier gradient
+   under the copy.
+
+   The top figure is measured, not guessed. Sampling the image through the
+   header band gives a peak luminance of 0.44 behind the logo, and white type
+   needs 4.5:1 there. Compositing ink at 0.62 alpha brings the worst pixel to
+   4.6:1, so that is the floor the gradient holds across the header. */
+.scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(
+      to bottom,
+      rgba(42, 29, 31, 0.68) 0%,
+      rgba(42, 29, 31, 0.62) 12%,
+      rgba(42, 29, 31, 0.18) 24%,
+      rgba(42, 29, 31, 0) 34%
+    ),
+    linear-gradient(
+      to top,
+      rgba(42, 29, 31, 0.82) 0%,
+      rgba(42, 29, 31, 0.62) 26%,
+      rgba(42, 29, 31, 0.22) 52%,
+      rgba(42, 29, 31, 0) 76%
+    );
+}
+
+.inner {
+  position: relative;
+  padding-top: calc(var(--header) + 32px);
+  /* Clear of the sticky mobile call bar. */
+  padding-bottom: calc(var(--sticky-bar) + 24px);
+}
+
+.inner > * {
+  color: var(--white);
+}
+
+.content {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  max-width: 620px;
+}
+
+.aside {
+  display: grid;
+  gap: 14px;
+  justify-items: start;
+  margin-top: 14px;
+}
+
+.proofWrap {
+  margin-top: 4px;
+}
+
+.open {
+  margin-bottom: 2px;
+}
+
+.eyebrow {
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.82);
+}
+
+.h1 {
+  max-width: 13ch;
+  font-size: clamp(40px, 8.5vw, 72px);
+  color: var(--white);
+}
+
+.subline {
+  max-width: 44ch;
+  font-size: 15px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.88);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px 24px;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.actions .btn {
+  flex: 1 1 100%;
+}
+
+.proof {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px 8px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.92);
+}
+
+.stars {
+  display: inline-flex;
+  gap: 1px;
+  margin-right: 4px;
+}
+
+.star {
+  font-size: 17px;
+  color: var(--star);
+  font-variation-settings: "FILL" 1, "wght" 400, "GRAD" 0, "opsz" 20;
+}
+
+.proofItem {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.sep {
+  color: rgba(255, 255, 255, 0.5);
+}
+
+/* Phones get the short version: open pill, supporting line and the secondary
+   link are all dropped, leaving the eyebrow, headline, one button and the
+   proof line. Keyed to the hero's own breakpoint so the layout never sits in a
+   half state. */
+@media (max-width: 899px) {
+  .open,
+  .subline,
+  .secondary,
+  /* Moved to the second bar under the announcement. */
+  .proof {
+    display: none;
+  }
+
+  /* The long CTA label wraps in a full width button on a phone, so the short
+     one takes over. Only the visible span reaches the accessibility tree. */
+  .ctaFull {
+    display: none;
+  }
+
+  /* The eyebrow holds one line on a phone. It is 44 characters, so the size
+     tracks the viewport and the tracking comes in from 0.14em: at 375px that
+     is a 302px line inside a 327px column, and it still fits at 320px. */
+  .eyebrow {
+    font-size: clamp(9px, 2.7vw, 12px);
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+  }
+}
+
+@media (min-width: 520px) {
+  .actions .btn {
+    flex: 0 1 auto;
+  }
+}
+
+@media (min-width: 900px) {
+  .ctaShort {
+    display: none;
+  }
+
+  .hero {
+    min-height: min(calc(100svh - var(--bars)), 940px);
+  }
+
+  .image {
+    object-position: 68% 28%;
+  }
+
+  .inner {
+    padding-bottom: clamp(56px, 7vh, 88px);
+  }
+
+  /* Two columns: the headline holds the left half, so it still ends on the
+     hero's midpoint, and the supporting line and CTA sit in the bottom right
+     corner. Both are bottom aligned against the same baseline. */
+  .inner {
+    display: grid;
+    grid-template-columns: 50% 1fr;
+    align-items: end;
+    column-gap: 48px;
+  }
+
+  .content {
+    gap: 18px;
+    max-width: none;
+  }
+
+  .aside {
+    justify-items: end;
+    justify-self: end;
+    align-self: end;
+    max-width: 400px;
+    margin-top: 0;
+    text-align: right;
+  }
+
+  .actions {
+    justify-content: flex-end;
+    width: auto;
+  }
+
+  .proofWrap {
+    grid-column: 1 / -1;
+    margin-top: 20px;
+  }
+
+  .h1 {
+    max-width: none;
+  }
+
+  .subline {
+    font-size: 17px;
+    max-width: 54ch;
+  }
+
+  .proof {
+    font-size: 14px;
+  }
+}
+
+/* From here the headline holds its two intended lines. The longest of them
+   measures 12.23em in Glorify, and the column is half the container, so the
+   size is tied to the viewport at 3.45vw: that keeps the longer line inside
+   the column from 1100px all the way up to the 1700px container cap. */
+@media (min-width: 1100px) {
+  .h1 {
+    font-size: clamp(38px, 3.45vw, 68px);
+  }
+
+  .h1Line {
+    display: block;
+  }
+}
+
+@media (min-width: 1400px) {
+  .image {
+    object-position: 62% 28%;
+  }
+}

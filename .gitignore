@@ -1,0 +1,10 @@
+node_modules
+.next
+out
+.env*.local
+.vercel
+*.tsbuildinfo
+next-env.d.ts
+
+# Local dev-server launch config, not part of the project
+.claude/

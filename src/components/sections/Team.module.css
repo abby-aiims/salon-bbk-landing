@@ -1,0 +1,41 @@
+.grid {
+  display: grid;
+  gap: 32px;
+  align-items: center;
+}
+
+.media {
+  display: grid;
+  gap: 10px;
+  max-width: 480px;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  object-position: 50% 20%;
+  border-radius: var(--r-card);
+}
+
+.caption {
+  text-align: left;
+}
+
+.copy {
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+}
+
+.body {
+  color: var(--ink-soft);
+  max-width: 56ch;
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 5fr 7fr;
+    gap: 64px;
+  }
+}

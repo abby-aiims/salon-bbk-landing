@@ -1,0 +1,46 @@
+.main {
+  background: var(--ground-blush);
+}
+
+.grid {
+  display: grid;
+  gap: 40px;
+  padding-block: var(--section);
+  align-items: center;
+}
+
+.copy {
+  display: grid;
+  gap: 20px;
+  justify-items: start;
+}
+
+.actions {
+  display: grid;
+  gap: 16px;
+  justify-items: start;
+  margin-top: 8px;
+}
+
+.media {
+  max-width: 420px;
+}
+
+.image {
+  width: 100%;
+  aspect-ratio: 4 / 5;
+  object-fit: cover;
+  object-position: 50% 30%;
+  border-radius: var(--r-card);
+}
+
+@media (min-width: 900px) {
+  .grid {
+    grid-template-columns: 7fr 5fr;
+    gap: 64px;
+  }
+
+  .media {
+    justify-self: end;
+  }
+}

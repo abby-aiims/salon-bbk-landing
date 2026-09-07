@@ -1,0 +1,289 @@
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--header);
+  transition: color var(--fast) ease;
+}
+
+.bg {
+  position: absolute;
+  inset: 0;
+  border-bottom: 1px solid transparent;
+  transition:
+    background-color var(--fast) ease,
+    border-color var(--fast) ease;
+}
+
+/* Over the hero photograph: no bar at all, everything in white. The hero
+   carries a top scrim so this stays legible. */
+.overlay {
+  color: var(--white);
+}
+
+.overlay .bg {
+  background: transparent;
+}
+
+.stuck {
+  color: var(--ink);
+}
+
+/* Taking the header out of flow shifts the page behind it, which nothing can
+   see: the panel covers the viewport and the body is scroll locked. */
+.pinned {
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+}
+
+.stuck .bg {
+  background: rgba(255, 255, 255, 0.96);
+  border-bottom-color: var(--line);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.inner {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  height: 100%;
+}
+
+.logo {
+  display: block;
+  flex: none;
+}
+
+/* Typed lockup. font-size drives the wordmark; the whole thing is 1.21 times
+   that tall. Sized to match the artwork it replaces at twice the design-system
+   size: 45px is a 55px lockup, the same ink the 72px PNG carried. The
+   horizontal lockup is 4.2:1, so on a phone it steps down to 30px and the
+   header phone icon drops out below 480px, where the sticky bar carries Call. */
+.logoMark {
+  font-size: 30px;
+}
+
+@media (min-width: 600px) {
+  .logoMark {
+    font-size: 40px;
+  }
+}
+
+@media (min-width: 900px) {
+  .logoMark {
+    font-size: 45px;
+  }
+}
+
+.nav {
+  display: none;
+  align-items: center;
+  gap: 32px;
+}
+
+.navLink {
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: inherit;
+  padding-block: 6px;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--fast) ease;
+}
+
+.navLink:hover {
+  border-bottom-color: var(--rose);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.phone {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 10px;
+  text-decoration: none;
+  color: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+  border-radius: var(--r-btn);
+}
+
+.phoneIcon {
+  color: var(--plum);
+}
+
+.overlay .phoneIcon {
+  color: inherit;
+}
+
+.overlay .navLink:hover {
+  border-bottom-color: currentColor;
+}
+
+.phoneLabel {
+  display: none;
+}
+
+@media (max-width: 479px) {
+  .phone {
+    display: none;
+  }
+}
+
+/* Below 1100px the CTA lives in the panel, so the bar carries the menu button
+   instead. The sticky bottom bar still carries Call and Book Now on a phone. */
+.cta {
+  display: none;
+  min-height: 44px;
+  padding: 12px 18px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+/* --------------------------------------------------------------------------
+   Menu button and panel
+   -------------------------------------------------------------------------- */
+
+.toggle {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+  margin-right: -10px;
+  padding: 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  cursor: pointer;
+}
+
+/* Two rules that cross into an X. The middle bar is the element itself. */
+.bars {
+  position: relative;
+}
+
+.bars,
+.bars::before,
+.bars::after {
+  display: block;
+  width: 26px;
+  height: 1.5px;
+  background: currentColor;
+  transition:
+    transform var(--fast) var(--ease),
+    opacity var(--fast) var(--ease);
+}
+
+.bars::before,
+.bars::after {
+  content: "";
+  position: absolute;
+}
+
+.bars::before {
+  transform: translateY(-8px);
+}
+
+.bars::after {
+  transform: translateY(8px);
+}
+
+.barsOpen {
+  background: transparent;
+}
+
+.barsOpen::before {
+  transform: rotate(45deg);
+}
+
+.barsOpen::after {
+  transform: rotate(-45deg);
+}
+
+/* The header is pinned to the top while the panel is open (see .pinned), so
+   the panel can sit directly under it at any scroll position. */
+.panel {
+  position: fixed;
+  inset: var(--header) 0 0;
+  z-index: 29;
+  display: grid;
+  align-content: space-between;
+  gap: 32px;
+  padding: 32px var(--pad) calc(32px + env(safe-area-inset-bottom));
+  background: var(--white);
+  overflow-y: auto;
+}
+
+.panelNav {
+  display: grid;
+  gap: 4px;
+}
+
+.panelLink {
+  padding-block: 14px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--display);
+  font-size: 30px;
+  line-height: 1.1;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.panelFoot {
+  display: grid;
+  gap: 16px;
+}
+
+.panelPhone {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--ink);
+}
+
+.panelPhone .icon {
+  color: var(--plum);
+}
+
+@media (min-width: 1100px) {
+  .nav {
+    display: flex;
+  }
+
+  .phoneLabel {
+    display: inline;
+  }
+
+  .cta {
+    display: inline-flex;
+    min-height: 48px;
+    padding: 14px 22px;
+    font-size: 13px;
+  }
+
+  .toggle,
+  .panel {
+    display: none;
+  }
+}
